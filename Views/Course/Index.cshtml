@@ -1,0 +1,41 @@
+@model IEnumerable<OnlineSchool.Models.Course>
+
+@{
+    ViewData["Title"] = "Курсҳо";
+}
+
+<!-- Course Header -->
+<div class="bg-primary text-white py-5">
+    <div class="container">
+        <h1 class="display-4">Курсҳои мо</h1>
+        <p class="lead">Курси дилхоҳро интихоб кунед ва ҳозир ба таҳсил оғоз намоед</p>
+    </div>
+</div>
+
+<!-- Course List -->
+<div class="container py-5">
+    <div class="row">
+        @foreach (var course in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@course.ImageUrl" class="card-img-top" alt="@course.Title">
+                    <div class="card-body">
+                        <h5 class="card-title">@course.Title</h5>
+                        <p class="card-text">@course.Description</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-0"><i class="fas fa-clock text-muted"></i> @course.Duration</p>
+                                <p class="mb-0"><i class="fas fa-signal text-muted"></i> @course.Level</p>
+                            </div>
+                            <span class="text-primary fw-bold">@course.Price сомонӣ</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <a href="/Course/Details/@course.Id" class="btn btn-primary w-100">Муфассал</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

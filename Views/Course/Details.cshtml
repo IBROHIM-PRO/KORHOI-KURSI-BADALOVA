@@ -1,0 +1,107 @@
+@model OnlineSchool.Models.Course
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<!-- Course Header -->
+<div class="bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-4">@Model.Title</h1>
+                <p class="lead mb-0">@Model.Description</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <div class="bg-white text-dark p-4 rounded">
+                    <h3 class="text-primary mb-3">@Model.Price сомони</h3>
+                    <p class="mb-2"><i class="fas fa-clock me-2"></i>Длительность: @Model.Duration</p>
+                    <p class="mb-2"><i class="fas fa-signal me-2"></i>Уровень: @Model.Level</p>
+                    <button class="btn btn-primary btn-lg w-100 mt-3">Записаться на курс</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Course Content -->
+<div class="container py-5">
+    <div class="row">
+        <!-- Course Details -->
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">О курсе</h2>
+                    <p class="card-text">@Model.Description</p>
+                </div>
+            </div>
+
+            <!-- Course Lessons -->
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Программа курса</h2>
+                    @if (Model.Lessons != null && Model.Lessons.Any())
+                    {
+                        <div class="accordion" id="lessonsAccordion">
+                            @foreach (var lesson in Model.Lessons.OrderBy(l => l.OrderNumber))
+                            {
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                                data-bs-target="#lesson@(lesson.Id)">
+                                            <span class="me-3">Урок @lesson.OrderNumber</span>
+                                            @lesson.Title
+                                        </button>
+                                    </h2>
+                                    <div id="lesson@(lesson.Id)" class="accordion-collapse collapse" data-bs-parent="#lessonsAccordion">
+                                        <div class="accordion-body">
+                                            <p>@lesson.Description</p>
+                                            @if (!string.IsNullOrEmpty(lesson.VideoUrl))
+                                            {
+                                                <div class="ratio ratio-16x9 mt-3">
+                                                    <iframe src="@lesson.VideoUrl" allowfullscreen></iframe>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p>Уроки для этого курса пока не добавлены.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-md-4">
+            <!-- Course Features -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">Что вы получите</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Доступ к материалам курса</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Практические задания</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Обратную связь от преподавателя</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Сертификат об окончании</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Requirements -->
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Требования</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i>Базовые знания компьютера</li>
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i>Доступ к интернету</li>
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i>Желание учиться</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
